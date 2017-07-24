@@ -1,17 +1,22 @@
 const express = require('express');
 const morgan = require('morgan');
+const jsonServer = require('json-server');
 const httpProxy = require('http-proxy');
 const exphbs = require('express-handlebars');
 const path = require('path');
 
 const server = express();
-server.use(morgan('dev'));
+
+
+if (process.env.NODE_ENV === 'development') {
+  server.use(morgan('dev'));
+}
 
 // JSON API
 
-// server.use('/api', jsonServer.defaults());
-// const router = jsonServer.router('db.json')
-// server.use('/api', router);
+server.use('/api', jsonServer.defaults());
+const router = jsonServer.router('db.json')
+server.use('/api', router);
 
 
 // STATIC ASSETS

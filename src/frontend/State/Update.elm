@@ -5,7 +5,6 @@ import Paths exposing (..)
 
 import State.Types exposing (..)
 import State.Control.Types exposing (Filter(..))
-import State.Input.Update as Input exposing (..)
 import State.Entries.Update as Entries exposing (..)
 import State.Control.Update as Control exposing (..)
 
@@ -19,7 +18,7 @@ init location =
 
 initialModel : Model
 initialModel =
-    { input = Input.initialModel
+    { input = ""
     , entries = Entries.initialModel
     , control = Control.initialModel
     }
@@ -49,11 +48,11 @@ update msg model =
         ChainMsgs msgs ->
             (List.foldl chain (model ! []) msgs)
 
-        MsgForInput inputMsg ->
-            let input =
-                Input.updateModel inputMsg model.input
-            in
-                { model | input = input } ! []
+        MsgForModel modelMsg ->
+            ( updateModel modelMsg model, Cmd.none )
+
+        MsgForCmd cmdMsg ->
+            ( model, updateCmd cmdMsg model )
 
         MsgForEntries entriesMsg ->
             let ( entries, cmd ) =
@@ -67,6 +66,22 @@ update msg model =
             in
                 { model | control = control } ! []
 
+
+updateModel : ModelMsg -> Model -> Model
+updateModel msg model =
+    case msg of
+        UpdateInput text ->
+            { model | input = text }
+
+        ClearInput ->
+            { model | input = "" }
+
+
+updateCmd : CmdMsg -> Model -> Cmd Msg
+updateCmd msg model =
+    case msg of
+        Nope ->
+            Cmd.none
 
 
 -- HELPERS

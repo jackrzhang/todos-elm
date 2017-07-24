@@ -2,7 +2,6 @@ module State.Types exposing (..)
 
 import Navigation exposing (Location)
 
-import State.Input.Types as Input
 import State.Entries.Types as Entries
 import State.Control.Types as Control
 
@@ -10,7 +9,7 @@ import State.Control.Types as Control
 -- MODEL
 
 type alias Model =
-    { input : Input.Model
+    { input : String
     , entries : Entries.Model
     , control : Control.Model
     }
@@ -22,7 +21,16 @@ type Msg
     = NoOp
     | Initialize Location
     | SyncPath
+    | MsgForModel ModelMsg 
+    | MsgForCmd CmdMsg
     | ChainMsgs (List Msg)
-    | MsgForInput Input.Msg
     | MsgForEntries Entries.Msg
     | MsgForControl Control.Msg
+
+
+type ModelMsg
+    = UpdateInput String
+    | ClearInput
+
+type CmdMsg
+    = Nope

@@ -1,0 +1,19 @@
+{
+  "entries": [
+    {
+      "text": "Buy eggs.",
+      "isComplete": false,
+      "id": 0
+    },
+    {
+      "text": "Try Elm!",
+      "isComplete": false,
+      "id": 1
+    },
+    {
+      "text": "hm, does this work?",
+      "isComplete": false,
+      "id": 2
+    }
+  ]
+}
