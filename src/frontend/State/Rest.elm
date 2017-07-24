@@ -1,11 +1,10 @@
-module State.Entries.Rest exposing (..)
+module State.Rest exposing (..)
 
 import Http exposing (Error)
 import Json.Decode as Decode
 import Json.Encode as Encode
 
 import State.Types exposing (..)
-import State.Entries.Types as Entries exposing (PersistedEntry)
 
 
 -- COMMANDS
@@ -39,37 +38,32 @@ editText entry =
 
 fetchAllResponse : Result Error (List PersistedEntry) -> Msg
 fetchAllResponse result =
-    Entries.FetchAllResponse result
-        |> Entries.MsgForModel
-        |> MsgForEntries
+    FetchAllResponse result
+        |> MsgForModel
 
 
 addEntryResponse : Result Error PersistedEntry -> Msg
 addEntryResponse result =
-    Entries.AddEntryResponse result
-        |> Entries.MsgForModel
-        |> MsgForEntries
+    AddEntryResponse result
+        |> MsgForModel
 
 
 removeEntryResponse : Result Error Int -> Msg
 removeEntryResponse result =
-    Entries.RemoveEntryResponse result
-        |> Entries.MsgForModel
-        |> MsgForEntries
+    RemoveEntryResponse result
+        |> MsgForModel
 
 
 toggleCompleteResponse : Result Error PersistedEntry -> Msg
 toggleCompleteResponse result =
-    Entries.ToggleCompleteResponse result
-        |> Entries.MsgForModel
-        |> MsgForEntries
+    ToggleCompleteResponse result
+        |> MsgForModel
 
 
 editTextResponse : Result Error PersistedEntry -> Msg
 editTextResponse result =
-    Entries.EditTextResponse result
-        |> Entries.MsgForModel
-        |> MsgForEntries
+    EditTextResponse result
+        |> MsgForModel
 
 
 -- REQUESTS

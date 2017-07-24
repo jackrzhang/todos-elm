@@ -3,7 +3,6 @@ module App.Input.Connector exposing (..)
 import Html exposing (Html)
 
 import State.Types exposing (..)
-import State.Entries.Types as Entries
 import App.Input.View exposing (view, Interface)
 
 
@@ -33,13 +32,12 @@ enterInput model =
         NoOp
     else
         ChainMsgs
-            [ (MsgForModel ClearInput)
+            [ ClearInput |> MsgForModel
             , (addEntry model.input)
             ]
 
 
 addEntry : String -> Msg
 addEntry text =
-    Entries.AddEntryRequest text
-        |> Entries.MsgForCmd
-        |> MsgForEntries
+    AddEntryRequest text
+        |> MsgForCmd

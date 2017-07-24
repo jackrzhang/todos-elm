@@ -5,8 +5,7 @@ import Html.Attributes exposing (..)
 import Utility.OnLinkClick exposing (onLinkClick)
 
 import Paths
-import State.Types exposing (Msg)
-import State.Control.Types as Control exposing (Filter(..))
+import State.Types exposing (Msg, Filter(..))
 
 
 -- INTERFACE

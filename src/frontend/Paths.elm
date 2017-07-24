@@ -3,15 +3,14 @@ module Paths exposing (..)
 import Navigation exposing (Location)
 import UrlParser exposing (Parser, (</>), oneOf, map, s, string)
 
-import State.Types exposing (Model)
-import State.Control.Types exposing (Filter(..))
+import State.Types exposing (Model, Filter(..))
 
 
 -- MODEL -> PATH
 
 modelToPath : Model -> String
 modelToPath model =
-    filterToPath model.control.filter
+    filterToPath model.filter
 
 
 filterToPath : Filter -> String
@@ -35,13 +34,8 @@ pathToModel location model =
         filter =
             pathToFilter location
                 |> Maybe.withDefault All
-
-        controlModel = model.control
-        control =
-            { controlModel | filter = filter }
-
     in
-        { model | control = control }
+        { model | filter = filter }
 
 
 pathToFilter : Location -> Maybe Filter

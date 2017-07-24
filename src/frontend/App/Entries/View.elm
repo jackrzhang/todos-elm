@@ -6,7 +6,6 @@ import Html.Events exposing (onClick, onInput)
 import Utility.OnEnter exposing (onEnter)
 
 import State.Types exposing (..)
-import State.Entries.Types exposing (Entry)
 
 
 -- INTERFACE

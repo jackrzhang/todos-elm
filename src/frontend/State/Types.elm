@@ -1,17 +1,37 @@
 module State.Types exposing (..)
 
 import Navigation exposing (Location)
-
-import State.Entries.Types as Entries
-import State.Control.Types as Control
+import Http exposing (Error)
 
 
 -- MODEL
 
+type Filter
+    = All
+    | Active
+    | Complete
+
+
+type alias Entry =
+    { id : Int
+    , text : String
+    , isComplete : Bool
+    , isEditing: Bool
+    , editingInput : String
+    }
+
+
+type alias PersistedEntry =
+    { id : Int
+    , text : String
+    , isComplete : Bool
+    }
+
+
 type alias Model =
     { input : String
-    , entries : Entries.Model
-    , control : Control.Model
+    , list : List Entry
+    , filter : Filter
     }
 
 
@@ -21,16 +41,28 @@ type Msg
     = NoOp
     | Initialize Location
     | SyncPath
+    | ChainMsgs (List Msg)
     | MsgForModel ModelMsg 
     | MsgForCmd CmdMsg
-    | ChainMsgs (List Msg)
-    | MsgForEntries Entries.Msg
-    | MsgForControl Control.Msg
 
 
 type ModelMsg
     = UpdateInput String
     | ClearInput
+    | ApplyFilter Filter
+    | FetchAllResponse (Result Error (List PersistedEntry))
+    | AddEntryResponse (Result Error PersistedEntry)
+    | RemoveEntryResponse (Result Error Int)
+    | ToggleCompleteResponse (Result Error PersistedEntry)
+    | StartEditing Int
+    | StopEditing Int
+    | UpdateEditingInput Int String
+    | EditTextResponse (Result Error PersistedEntry)
+
 
 type CmdMsg
-    = Nope
+    = FetchAllRequest
+    | AddEntryRequest String
+    | RemoveEntryRequest Int
+    | ToggleCompleteRequest Entry
+    | EditTextRequest Entry
