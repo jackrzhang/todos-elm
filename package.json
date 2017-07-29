@@ -3,13 +3,14 @@
   "private": true,
   "author": "Jack R. Zhang <15jzhang@gmail.com>",
   "scripts": {
-    "start": "nf start",
+    "dev": "nf start",
     "dev:frontend": "NODE_ENV=development node dev-server.js --watch",
     "dev:backend": "NODE_ENV=development nodemon src/backend/index.js",
-    "prod": "npm run build && npm run serve",
     "build": "NODE_ENV=production webpack",
-    "serve": "NODE_ENV=production node dist/backend/index.js",
-    "clean": "rm -rf dist"
+    "start": "NODE_ENV=production node dist/backend/index.js",
+    "prod": "npm run build && npm start",
+    "clean": "rm -rf dist",
+    "postinstall": "elm package install"
   },
   "license": "MIT",
   "dependencies": {
@@ -32,5 +33,12 @@
     "webpack": "^1.15.0",
     "webpack-dev-middleware": "^1.11.0",
     "webpack-hot-middleware": "^2.18.2"
+  },
+  "engines": {
+    "node": ">=7.0",
+    "npm": ">=4.0"
+  },
+  "now": {
+    "type": "docker"
   }
 }

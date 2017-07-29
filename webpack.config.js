@@ -47,12 +47,6 @@ let frontendConfig = {
         loader:  'file?name=[name].[ext]',
       },
       {
-        test:    /\.elm$/,
-        exclude: [/elm-stuff/, /node_modules/],
-        cache: false,
-        loader:  `elm-hot!elm-webpack?verbose=true&warn=true&cwd=${__dirname}`
-      },
-      {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'url-loader?limit=10000&minetype=application/font-woff',
       },
@@ -110,6 +104,13 @@ let backendConfig = {
 // DEVELOPMENT / PRODUCTION
 
 let config;
+
+const elmConfig = {
+  test:    /\.elm$/,
+  exclude: [/elm-stuff/, /node_modules/],
+  cache: false
+}
+
 if (process.env.NODE_ENV === 'production') {
   const optimizations = {
 
@@ -122,6 +123,9 @@ if (process.env.NODE_ENV === 'production') {
 
   }
 
+  elmConfig.loader = `elm-webpack?verbose=true&warn=true&cwd=${__dirname}`
+  frontendConfig.module.loaders.push(elmConfig)
+
   frontendConfig = Object.assign(frontendConfig, optimizations);
   config = [ frontendConfig, backendConfig ];
 } else {
@@ -132,6 +136,9 @@ if (process.env.NODE_ENV === 'production') {
     ]
 
   });
+
+  elmConfig.loader = `elm-hot!elm-webpack?verbose=true&warn=true&cwd=${__dirname}`
+  frontendConfig.module.loaders.push(elmConfig)
 
   frontendConfig.entry.main
     .unshift('webpack-hot-middleware/client?path=http://localhost:4568/__webpack_hmr');
